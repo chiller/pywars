@@ -1,0 +1,57 @@
+from effects import *
+
+class Card(object):
+    hp = 5
+    att = 2
+    strname = "C"
+
+    def __init__(self, field):
+        self.field = field
+        self.effects = [Effect(self)]
+
+    def die(self):
+        index = self.field.cards.index(self)
+        self.field.cards[index] = EmptyField(self.field)
+        for card in self.field.cards:
+            card.effects.append(FriendlyHasDiedEffect(card))
+    
+    def get_hp(self):
+        return self.hp + sum(map(lambda x:x.defense_modifier(),self.effects))
+        
+
+    def get_hit(self, damage):
+        self.hp -= damage
+        if self.hp <= 0:
+            self.die()
+
+    def attack(self, card):
+        att_bonus = sum(map(lambda x:x.attack_modifier(),self.effects))
+        card.get_hit(self.att + att_bonus)
+        self.get_hit(card.att)
+
+    
+    def __str__(self):
+        return "[%s%d/%d]" % (self.strname, self.att, self.hp)
+
+class CardWithEffect(Card):
+    strname = "CA"
+    def __init__(self, *args):
+        super(CardWithEffect, self).__init__(*args)
+        self.effects = [SimpleAttackEffect(self)]
+
+class DefensiveCard(Card):
+    strname = "CD"
+    def __init__(self, *args):
+        super(DefensiveCard, self).__init__(*args)
+        self.effects = [SimpleDefensiveEffect(self)]
+
+class EmptyField(Card):
+    hp = 0
+    att = 0
+    def get_hit(self, damage):
+        if self.field.player:
+            self.field.player.hp-=damage
+    def attack(self, damage):
+        pass
+    def __str__(self):
+        return "[ ]"
