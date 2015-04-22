@@ -1,9 +1,7 @@
-from exceptions import *
+from excepts import *
 from cards import *
 from utils import FieldUtilsMixin
 import random
-class OutOfCards(Exception):
-    message = "Player is out of cards"
 
 class Field(FieldUtilsMixin, object):
     def __init__(self, player):
@@ -44,6 +42,11 @@ class Player(object):
 
     def attack(self, player):
         self.field.attack(player.field)
+
+    def get_hit(self, dmg):
+        self.hp -= dmg
+        if self.hp == 0:
+            raise GameOver
 
 
 #next steps

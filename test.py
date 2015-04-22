@@ -1,6 +1,5 @@
 import unittest
 from game import *
-from exceptions import *
 
 class TCGTest(unittest.TestCase):
 
@@ -31,6 +30,7 @@ class TCGTest(unittest.TestCase):
         p1 = Player("one")
         self.assertTrue(p1.deck)
         [p1.draw() for i in range(len(p1.deck.cards))]
+        from excepts import OutOfCards
         with self.assertRaises(OutOfCards):
             p1.draw()
         self.assertEquals(len(p1.hand),5)
@@ -60,10 +60,6 @@ class TCGTest(unittest.TestCase):
 
     def test_keep_track_of_dmg(self):
         self.assertEquals(Card.hp_lost, 0)
-
-    #TODO: game engine for turns and to connect controls
-
-    #TODO: console game
 
     #TODO: more card types
 

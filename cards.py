@@ -35,7 +35,7 @@ class Card(object):
         self.get_hit(card.get_att())
     
     def __str__(self):
-        return "[%s%d/%d]" % (self.strname, self.att, self.hp)
+        return "[%s%d/%d]" % (self.strname, self.get_att(), self.get_hp())
 
 class CardWithEffect(Card):
     strname = "CA"
@@ -54,7 +54,7 @@ class EmptyField(Card):
     att = 0
     def get_hit(self, damage):
         if self.field.player:
-            self.field.player.hp-=damage
+            self.field.player.get_hit(damage)
     def attack(self, damage):
         pass
     def __str__(self):

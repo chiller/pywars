@@ -10,7 +10,7 @@ class Game(object):
             print player.hp, 
             print "|", 
             print player.field, 
-            print map(lambda x: x.__name__, player.hand)
+            print map(lambda x: x.strname, player.hand)
 
     def command(self, player):
         comm = raw_input(player.name+":").split(" ")
@@ -26,13 +26,15 @@ class Game(object):
 
     def play(self):
         attacking, defending = self.player1, self.player2
-        while True:
-            attacking.draw()
-            self.draw()
-            self.command(attacking)
-            attacking.attack(defending)
-            attacking, defending = defending, attacking
-
+        try:
+            while True:
+                attacking.draw()
+                self.draw()
+                self.command(attacking)
+                attacking.attack(defending)
+                attacking, defending = defending, attacking
+        except GameOver, e:
+            print "Game over", e 
 game = Game()
 game.play()
 
