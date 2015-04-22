@@ -8,15 +8,15 @@ class TCGTest(unittest.TestCase):
 
         d1 = Field(None)
         d1.add(Card, 0)
-        self.assertEquals(d1.cards[0].hp, 5)
+        self.assertEquals(d1.cards[0].get_hp(), 5)
 
         d2 = Field(None)
         d2.add(Card, 0)
-        self.assertEquals(d2.cards[0].hp, 5)
+        self.assertEquals(d2.cards[0].get_hp(), 5)
 
         d1.attack(d2)
-        self.assertEquals(d2.cards[0].hp, 3)
-        self.assertEquals(d1.cards[0].hp, 3)
+        self.assertEquals(d2.cards[0].get_hp(), 3)
+        self.assertEquals(d1.cards[0].get_hp(), 3)
         d1.attack(d2)
         d1.attack(d2)
         
@@ -58,9 +58,8 @@ class TCGTest(unittest.TestCase):
         self.assertEquals(len(p1.field.cards[0].effects),2)
         self.assertEquals(p1.field.cards[0].get_hp(),7)
 
-
     def test_keep_track_of_dmg(self):
-        self.assertEquals(Card.hp_lost)
+        self.assertEquals(Card.hp_lost, 0)
 
     #TODO: game engine for turns and to connect controls
 

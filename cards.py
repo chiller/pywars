@@ -2,6 +2,7 @@ from effects import *
 
 class Card(object):
     hp = 5
+    hp_lost = 0
     att = 2
     strname = "C"
 
@@ -16,21 +17,22 @@ class Card(object):
             card.effects.append(FriendlyHasDiedEffect(card))
     
     def get_hp(self):
-        return self.hp + sum(map(lambda x:x.defense_modifier(),self.effects))
+        return self.hp + \
+            sum(map(lambda x:x.defense_modifier(),self.effects)) -\
+            self.hp_lost
         
     def get_att(self):
         return self.att + sum(map(lambda x:x.attack_modifier(),self.effects))
         
 
     def get_hit(self, damage):
-        self.hp -= damage
-        if self.hp <= 0:
+        self.hp_lost += damage
+        if self.get_hp() <= 0:
             self.die()
 
     def attack(self, card):
         card.get_hit(self.get_att())
-        self.get_hit(card.att)
-
+        self.get_hit(card.get_att())
     
     def __str__(self):
         return "[%s%d/%d]" % (self.strname, self.att, self.hp)
