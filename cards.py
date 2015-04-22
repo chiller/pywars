@@ -18,6 +18,9 @@ class Card(object):
     def get_hp(self):
         return self.hp + sum(map(lambda x:x.defense_modifier(),self.effects))
         
+    def get_att(self):
+        return self.att + sum(map(lambda x:x.attack_modifier(),self.effects))
+        
 
     def get_hit(self, damage):
         self.hp -= damage
@@ -25,8 +28,7 @@ class Card(object):
             self.die()
 
     def attack(self, card):
-        att_bonus = sum(map(lambda x:x.attack_modifier(),self.effects))
-        card.get_hit(self.att + att_bonus)
+        card.get_hit(self.get_att())
         self.get_hit(card.att)
 
     

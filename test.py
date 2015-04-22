@@ -30,12 +30,10 @@ class TCGTest(unittest.TestCase):
     def test_deck(self):
         p1 = Player("one")
         self.assertTrue(p1.deck)
-        p1.draw()
-        p1.draw()
-        p1.draw()
+        [p1.draw() for i in range(len(p1.deck.cards))]
         with self.assertRaises(OutOfCards):
             p1.draw()
-        self.assertEquals(len(p1.hand),3)
+        self.assertEquals(len(p1.hand),5)
 
     def _game_factory(self, field_config1, field_config2):
         p1 = Player("one")
@@ -49,6 +47,8 @@ class TCGTest(unittest.TestCase):
     def test_simple_effect(self):
         p1, p2 = self._game_factory([],[Card, CardWithEffect, Card])
         p2.attack(p1)
+        cwe = p2.field.cards[1]
+        self.assertEquals(type(p2.field.cards[3]),EmptyField)
         self.assertEquals(p1.hp, 12)
 
     def test_defense_modifier(self):
@@ -58,6 +58,9 @@ class TCGTest(unittest.TestCase):
         self.assertEquals(len(p1.field.cards[0].effects),2)
         self.assertEquals(p1.field.cards[0].get_hp(),7)
 
+
+    def test_keep_track_of_dmg(self):
+        self.assertEquals(Card.hp_lost)
 
     #TODO: game engine for turns and to connect controls
 

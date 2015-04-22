@@ -1,4 +1,4 @@
-from card_type import EmptyField
+from cards import EmptyField
 
 class FieldUtilsMixin():
     def get_friendly_cards_on_field(self):
