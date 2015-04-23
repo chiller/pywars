@@ -10,7 +10,9 @@ class Game(object):
             print player.hp, 
             print "|", 
             print player.field, 
-            print map(lambda x: x.strname, player.hand)
+            print map(lambda x: x.strname, player.hand),
+            print "|", 
+            print "Deck:", len(player.deck.cards)
 
     def command(self, player):
         comm = raw_input(player.name+":").split(" ")
