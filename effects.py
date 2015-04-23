@@ -24,3 +24,7 @@ class SimpleDefensiveEffect(Effect):
             self.permanent = 2
         return self.permanent
 
+class DrawCardsEffect(Effect):
+    def __init__(self,*args):
+        super(DrawCardsEffect, self).__init__(*args)
+        [self.card.field.player.draw() for i in range(3)]

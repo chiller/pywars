@@ -3,25 +3,38 @@ from cards import *
 from utils import FieldUtilsMixin
 import random
 
+
 class Field(FieldUtilsMixin, object):
     def __init__(self, player):
         self.cards = [EmptyField(self) for i in range(4)]
         self.player = player
+
     def add(self, cardclass, position):
-        self.cards[position] = cardclass(self)
+        if issubclass(cardclass, CreatureCard):
+            self.cards[position] = cardclass(self)
+        elif cardclass == EmptyField:
+            self.cards[position] = cardclass(self)
+        elif issubclass(cardclass, SpellCard):
+            cardclass(self)
+
     def remove(self, card):
         self.cards.remove(card)
+
     def attack(self, field):
         for c1, c2 in zip(self.cards, field.cards):
             c1.attack(c2)         
+
     def __str__(self):
         return " ".join(map(str, self.cards))
+
 
 class Deck(object):
     def __init__(self):
         self.cards = self.loadcards()
+
     def loadcards(self):
-        cards = [Card, Card, Card, DefensiveCard, CardWithEffect]
+        cards = [CreatureCard, DefensiveCard, CardWithEffect, DrawCardsCard]
+        cards = cards + cards + cards
         random.shuffle(cards)
         return cards
 
@@ -48,6 +61,4 @@ class Player(object):
         if self.hp == 0:
             raise GameOver
 
-
-#next steps
 

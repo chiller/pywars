@@ -37,18 +37,6 @@ class Card(object):
     def __str__(self):
         return "[%s%d/%d]" % (self.strname, self.get_att(), self.get_hp())
 
-class CardWithEffect(Card):
-    strname = "CA"
-    def __init__(self, *args):
-        super(CardWithEffect, self).__init__(*args)
-        self.effects = [SimpleAttackEffect(self)]
-
-class DefensiveCard(Card):
-    strname = "CD"
-    def __init__(self, *args):
-        super(DefensiveCard, self).__init__(*args)
-        self.effects = [SimpleDefensiveEffect(self)]
-
 class EmptyField(Card):
     hp = 0
     att = 0
@@ -59,3 +47,31 @@ class EmptyField(Card):
         pass
     def __str__(self):
         return "[ ]"
+
+class CreatureCard(Card):
+    pass
+
+class SpellCard(Card):
+    def __str__(self):
+        return "[%s]" % (self.strname)
+
+
+
+class CardWithEffect(CreatureCard):
+    strname = "CA"
+    def __init__(self, *args):
+        super(CardWithEffect, self).__init__(*args)
+        self.effects = [SimpleAttackEffect(self)]
+
+class DefensiveCard(CreatureCard):
+    strname = "CD"
+    def __init__(self, *args):
+        super(DefensiveCard, self).__init__(*args)
+        self.effects = [SimpleDefensiveEffect(self)]
+
+class DrawCardsCard(SpellCard):
+    strname = "D3"
+    def __init__(self, *args):
+        super(DrawCardsCard, self).__init__(*args)
+        self.effects = [DrawCardsEffect(self)]
+
