@@ -28,6 +28,7 @@ class Game(object):
 
     def play(self):
         attacking, defending = self.player1, self.player2
+        self.overrides()
         try:
             while True:
                 attacking.draw()
@@ -36,7 +37,11 @@ class Game(object):
                 attacking.attack(defending)
                 attacking, defending = defending, attacking
         except GameOver, e:
-            print "Game over", e 
+            print "Game over", e
+
+    def overrides(self):
+        self.player1.hand.append(DrawCardsCard)
+
 game = Game()
 game.play()
 
