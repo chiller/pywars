@@ -27,9 +27,6 @@ class Field(FieldUtilsMixin, object):
     def __str__(self):
         return " ".join(map(str, self.cards))
 
-    def coloredfield(self):
-        return " ".join(x.coloredstr() for x in self.cards)
-
 
 class Deck(object):
     def __init__(self):

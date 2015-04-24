@@ -79,11 +79,6 @@ class TCGTest(unittest.TestCase):
         self.assertEquals(len(p1.hand), 3)
         self.assertEquals(type(p1.field.cards[0]),EmptyField)
 
-    def test_empty_field_color(self):
-        p1, p2 = self._game_factory([],[])
-        self.assertEquals(str(p1.field), "[ ] [ ] [ ] [ ]")
-        self.assertEquals(p1.field.coloredfield(), "[ ] [ ] [ ] [ ]")
-
     #TODO: more card types
 
     #TODO: card effects

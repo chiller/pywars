@@ -24,26 +24,9 @@ class Card(object):
             self.get_bonus_hp() -\
             self.hp_lost
     
-    def get_colored_hp(self):
-        hp = str(self.get_hp())
-        if self.hp_lost:
-            if self.get_bonus_hp():
-                return color(colors.WARNING, hp)
-            else:
-                return color(colors.FAIL, hp)
-        else:
-            if self.get_bonus_hp():
-                return color(colors.OKGREEN, hp)
-            else:
-                return hp
-
-
     def get_att(self):
         return self.att + sum(map(lambda x:x.attack_modifier(),self.effects))
     
-    def get_colored_att(self):
-        return self.get_att() 
-
     def get_hit(self, damage):
         self.hp_lost += damage
         if self.get_hp() <= 0:
@@ -56,9 +39,7 @@ class Card(object):
     def __str__(self):
         return "[%s%d/%d]" % (self.strname, self.get_att(), self.get_hp())
 
-    def coloredstr(self):
-        return "[%s%d/%s]" % (self.strname, self.get_colored_att(), self.get_colored_hp())
-
+    
 class EmptyField(Card):
     hp = 0
     att = 0
@@ -73,8 +54,6 @@ class EmptyField(Card):
     def __str__(self):
         return "[ ]"
 
-    def coloredstr(self):
-        return "[ ]"
 
 class CreatureCard(Card):
     pass

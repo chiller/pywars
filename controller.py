@@ -1,17 +1,43 @@
 import sys
 from game import *
 
+def get_colored_card(card):
+    if type(card) == EmptyField:
+        return "[ ]"
+    else:
+        return "[%s%d/%s]" % (
+                card.strname,
+                card.get_att(),
+                get_colored_hp(card)
+            )
+
+def get_colored_hp(card):
+    hp = str(card.get_hp())
+    if card.hp_lost:
+        if card.get_bonus_hp():
+            return color(colors.WARNING, hp)
+        else:
+            return color(colors.FAIL, hp)
+    else:
+        if card.get_bonus_hp():
+            return color(colors.OKGREEN, hp)
+        else:
+            return hp
+
 
 class Game(object):
     player1 = Player("one")
     player2 = Player("two")
     
 
+    def draw_field(self, player):
+        return " ".join(get_colored_card(card) for card in player.field.cards)
+
     def draw(self):
         for player in [self.player1, self.player2]:
             print str(player.hp), 
             print "|", 
-            print player.field.coloredfield(), 
+            print self.draw_field(player), 
             print "|", 
             print map(lambda x: x.strname, player.hand),
             print "|", 
