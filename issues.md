@@ -1,5 +1,7 @@
 TERMINAL: colored terminal
 
+REFACTOR: color logic should be extracted from card class
+
 building cards
 
 spend action to draw a card

@@ -1,5 +1,7 @@
 import sys
 from game import *
+
+
 class Game(object):
     player1 = Player("one")
     player2 = Player("two")
@@ -7,9 +9,10 @@ class Game(object):
 
     def draw(self):
         for player in [self.player1, self.player2]:
-            print player.hp, 
+            print str(player.hp), 
             print "|", 
-            print player.field, 
+            print player.field.coloredfield(), 
+            print "|", 
             print map(lambda x: x.strname, player.hand),
             print "|", 
             print "Deck:", len(player.deck.cards)
