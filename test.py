@@ -2,22 +2,6 @@ import unittest
 from game import *
 
 class TCGTest(unittest.TestCase):
-
-    def test_simple_interaction(self):
-
-        d1 = Field(None)
-        d1.add(CreatureCard, 0)
-        self.assertEquals(d1.cards[0].get_hp(), 5)
-
-        d2 = Field(None)
-        d2.add(CreatureCard, 0)
-        self.assertEquals(d2.cards[0].get_hp(), 5)
-
-        d1.attack(d2)
-        self.assertEquals(d2.cards[0].get_hp(), 3)
-        self.assertEquals(d1.cards[0].get_hp(), 3)
-        d1.attack(d2)
-        d1.attack(d2)
         
     def test_empty_field_attacks_player(self):
         p1 = Player("one")
@@ -79,8 +63,16 @@ class TCGTest(unittest.TestCase):
         self.assertEquals(len(p1.hand), 3)
         self.assertEquals(type(p1.field.cards[0]),EmptyField)
 
-    #TODO: more card types
+    def test_discard_pile(self):
+        p1, p2 = self._game_factory([], [])
+        self.assertEquals(p1.discard_pile, [])
+        p1.field.add(CreatureCard, 0)
+        p1.field.cards[0].die()
+        self.assertEquals(len(p1.discard_pile), 1) 
+        self.assertEqual(p1.discard_pile, [CreatureCard])
+        p1.field.add(DefensiveCard, 0)
+        p1.field.add(CreatureCard, 0)
+        self.assertEqual(p1.discard_pile, [CreatureCard, DefensiveCard])
 
-    #TODO: card effects
 
 unittest.main()

@@ -11,6 +11,8 @@ class Field(FieldUtilsMixin, object):
 
     def add(self, cardclass, position):
         if issubclass(cardclass, CreatureCard):
+            if issubclass(self.cards[position].__class__, CreatureCard):
+                self.player.discard_pile.append(self.cards[position].__class__)
             self.cards[position] = cardclass(self)
         elif cardclass == EmptyField:
             self.cards[position] = cardclass(self)
@@ -34,9 +36,10 @@ class Deck(object):
 
     def loadcards(self):
         cards = [CreatureCard, DefensiveCard, CardWithEffect, DrawCardsCard]
-        cards = cards + cards + cards
+        cards = cards * 3
         random.shuffle(cards)
         return cards
+
 
 
 class Player(object):
@@ -46,6 +49,7 @@ class Player(object):
         self.field = Field(self)
         self.deck = Deck()
         self.hand = []
+        self.discard_pile = []
 
     def draw(self):
         if self.deck.cards:

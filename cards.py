@@ -13,6 +13,7 @@ class Card(object):
     def die(self):
         index = self.field.cards.index(self)
         self.field.cards[index] = EmptyField(self.field)
+        self.field.player.discard_pile.append(self.__class__)
         for card in self.field.cards:
             card.effects.append(FriendlyHasDiedEffect(card))
     
@@ -25,7 +26,7 @@ class Card(object):
             self.hp_lost
     
     def get_att(self):
-        return self.att + sum(map(lambda x:x.attack_modifier(),self.effects))
+        return self.att + sum(map(lambda x: x.attack_modifier(), self.effects))
     
     def get_hit(self, damage):
         self.hp_lost += damage
