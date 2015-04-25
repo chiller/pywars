@@ -32,8 +32,6 @@ action cost to activate card ability
 
 changing lanes
 
-discard card
-
 targeted abilities
 
 
