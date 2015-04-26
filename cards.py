@@ -63,6 +63,8 @@ class SpellCard(Card):
     def __str__(self):
         return "[%s]" % (self.strname)
 
+class BuildingCard(Card):
+    pass
 
 
 class CardWithEffect(CreatureCard):
@@ -70,6 +72,7 @@ class CardWithEffect(CreatureCard):
     def __init__(self, *args):
         super(CardWithEffect, self).__init__(*args)
         self.effects = [SimpleAttackEffect(self)]
+
 
 class DefensiveCard(CreatureCard):
     strname = "CD"
@@ -83,3 +86,5 @@ class DrawCardsCard(SpellCard):
         super(DrawCardsCard, self).__init__(*args)
         self.effects = [DrawCardsEffect(self)]
 
+class CelestialCastle(BuildingCard):
+    pass

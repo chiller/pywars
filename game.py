@@ -11,6 +11,7 @@ class Board(FieldUtilsMixin, object):
     def __init__(self, player):
         self.cards = [EmptyField(self) for i in range(4)]
         self.player = player
+        self.buildings = [None] * 4
 
     def add(self, cardclass, position):
         if issubclass(cardclass, CreatureCard):
@@ -21,6 +22,10 @@ class Board(FieldUtilsMixin, object):
             self.cards[position] = cardclass(self)
         elif issubclass(cardclass, SpellCard):
             cardclass(self)
+        elif issubclass(cardclass, BuildingCard):
+            if issubclass(self.buildings[position].__class__, BuildingCard):
+                self.player.discard_pile.append(self.buildings[position].__class__)
+            self.buildings[position] = cardclass(self)
 
     def remove(self, card):
         self.cards.remove(card)
