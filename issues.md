@@ -16,8 +16,6 @@ landscapes cost for cards
 
 landscapes flip
 
-discard pile
-
 deck types: useless swamp etc
 
 rainbow cards
@@ -33,7 +31,5 @@ action cost to activate card ability
 changing lanes
 
 targeted abilities
-
-
 
 EPIC: DSL for card descriptions

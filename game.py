@@ -4,7 +4,10 @@ from utils import FieldUtilsMixin
 import random
 
 
-class Field(FieldUtilsMixin, object):
+class Board(FieldUtilsMixin, object):
+    """
+    Class for everything on a player's side of the board
+    """
     def __init__(self, player):
         self.cards = [EmptyField(self) for i in range(4)]
         self.player = player
@@ -46,7 +49,7 @@ class Player(object):
     hp = 20
     def __init__(self, name):
         self.name = name
-        self.field = Field(self)
+        self.board = Board(self)
         self.deck = Deck()
         self.hand = []
         self.discard_pile = []
@@ -58,7 +61,7 @@ class Player(object):
             raise OutOfCards
 
     def attack(self, player):
-        self.field.attack(player.field)
+        self.board.attack(player.board)
 
     def get_hit(self, dmg):
         self.hp -= dmg
