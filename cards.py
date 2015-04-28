@@ -12,6 +12,10 @@ class Card(object):
 
     def discard(self):
         self.field.player.discard_pile.append(self.__class__)
+        events.unsubscribe(self)
+        for effect in self.effects:
+            events.unsubscribe(effect)
+
     def die(self):
         index = self.field.cards.index(self)
         self.field.cards[index] = EmptyField(self.field)
