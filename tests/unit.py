@@ -1,7 +1,20 @@
 import unittest
 from tcg.game import *
 
-class TCGTest(unittest.TestCase):
+
+class BaseTCGTest(unittest.TestCase):
+    
+    def _game_factory(self, field_config1, field_config2):
+        p1 = Player("one")
+        p2 = Player("two")
+        for card_class, i in zip(field_config1, range(len(field_config1))):
+            p1.board.add(card_class, i)
+        for card_class, i in zip(field_config2, range(len(field_config2))):
+            p2.board.add(card_class, i)
+        return p1, p2
+
+
+class TCGTest(BaseTCGTest):
         
     def test_empty_field_attacks_player(self):
         p1 = Player("one")
@@ -19,15 +32,6 @@ class TCGTest(unittest.TestCase):
         with self.assertRaises(OutOfCards):
             p1.draw()
         self.assertEquals(len(p1.hand),cards_cnt)
-
-    def _game_factory(self, field_config1, field_config2):
-        p1 = Player("one")
-        p2 = Player("two")
-        for card_class, i in zip(field_config1, range(len(field_config1))):
-            p1.board.add(card_class, i)
-        for card_class, i in zip(field_config2, range(len(field_config2))):
-            p2.board.add(card_class, i)
-        return p1, p2
 
     def test_simple_effect(self):
         p1, p2 = self._game_factory([],[CreatureCard, CardWithEffect, CreatureCard])
