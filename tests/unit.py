@@ -1,5 +1,5 @@
 import unittest
-from game import *
+from tcg.game import *
 
 class TCGTest(unittest.TestCase):
 
@@ -31,7 +31,7 @@ class TCGTest(unittest.TestCase):
         self.assertTrue(p1.deck)
         cards_cnt = len(p1.deck.cards)
         [p1.draw() for i in range(cards_cnt)]
-        from excepts import OutOfCards
+        from tcg.excepts import OutOfCards
         with self.assertRaises(OutOfCards):
             p1.draw()
         self.assertEquals(len(p1.hand),cards_cnt)
@@ -82,5 +82,3 @@ class TCGTest(unittest.TestCase):
     #TODO: more card types
 
     #TODO: card effects
-
-unittest.main()
