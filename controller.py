@@ -70,6 +70,7 @@ class Game(object):
 
     def overrides(self):
         self.player1.hand.append(DrawCardsCard)
+        self.player1.hand.append(SpellThiefCard)
 
 game = Game()
 game.play()

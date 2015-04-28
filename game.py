@@ -1,6 +1,7 @@
 from excepts import *
 from cards import *
 from utils import FieldUtilsMixin
+from events import events
 import random
 
 
@@ -15,6 +16,7 @@ class Field(FieldUtilsMixin, object):
         elif cardclass == EmptyField:
             self.cards[position] = cardclass(self)
         elif issubclass(cardclass, SpellCard):
+            events.emit("spellcardplayed")
             cardclass(self)
 
     def remove(self, card):
@@ -33,7 +35,7 @@ class Deck(object):
         self.cards = self.loadcards()
 
     def loadcards(self):
-        cards = [CreatureCard, DefensiveCard, CardWithEffect, DrawCardsCard]
+        cards = [CreatureCard, DefensiveCard, CardWithEffect, DrawCardsCard, SpellThiefCard]
         cards = cards + cards + cards
         random.shuffle(cards)
         return cards

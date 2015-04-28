@@ -82,3 +82,9 @@ class DrawCardsCard(SpellCard):
         super(DrawCardsCard, self).__init__(*args)
         self.effects = [DrawCardsEffect(self)]
 
+class SpellThiefCard(CreatureCard):
+    strname = "ST"
+    def __init__(self, *args):
+        super(SpellThiefCard, self).__init__(*args)
+        self.effects = [SpellThiefEffect(self)]
+
