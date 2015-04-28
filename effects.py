@@ -10,6 +10,7 @@ class Effect(object):
     def defense_modifier(self):
         return 0
 
+
 class FriendlyHasDiedEffect(Effect):
     pass
 

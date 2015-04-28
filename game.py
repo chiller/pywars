@@ -5,13 +5,18 @@ from events import events
 import random
 
 
-class Field(FieldUtilsMixin, object):
+class Board(FieldUtilsMixin, object):
+    """
+    Class for everything on a player's side of the board
+    """
     def __init__(self, player):
         self.cards = [EmptyField(self) for i in range(4)]
         self.player = player
 
     def add(self, cardclass, position):
         if issubclass(cardclass, CreatureCard):
+            if issubclass(self.cards[position].__class__, CreatureCard):
+                self.player.discard_pile.append(self.cards[position].__class__)
             self.cards[position] = cardclass(self)
         elif cardclass == EmptyField:
             self.cards[position] = cardclass(self)
@@ -36,18 +41,20 @@ class Deck(object):
 
     def loadcards(self):
         cards = [CreatureCard, DefensiveCard, CardWithEffect, DrawCardsCard, SpellThiefCard]
-        cards = cards + cards + cards
+        cards = cards * 3
         random.shuffle(cards)
         return cards
+
 
 
 class Player(object):
     hp = 20
     def __init__(self, name):
         self.name = name
-        self.field = Field(self)
+        self.board = Board(self)
         self.deck = Deck()
         self.hand = []
+        self.discard_pile = []
 
     def draw(self):
         if self.deck.cards:
@@ -56,7 +63,7 @@ class Player(object):
             raise OutOfCards
 
     def attack(self, player):
-        self.field.attack(player.field)
+        self.board.attack(player.board)
 
     def get_hit(self, dmg):
         self.hp -= dmg

@@ -30,14 +30,14 @@ class Game(object):
     player2 = Player("two")
     
 
-    def draw_field(self, player):
-        return " ".join(get_colored_card(card) for card in player.field.cards)
+    def draw_board(self, player):
+        return " ".join(get_colored_card(card) for card in player.board.cards)
 
     def draw(self):
         for player in [self.player1, self.player2]:
-            print str(player.hp), 
+            print str(player.hp),
             print "|", 
-            print self.draw_field(player), 
+            print self.draw_board(player),
             print "|", 
             print map(lambda x: x.strname, player.hand),
             print "|", 
@@ -47,7 +47,7 @@ class Game(object):
         comm = raw_input(player.name+":").split(" ")
         if comm[0] == 'p':
             card = player.hand.pop(int(comm[1]))
-            player.field.add(card, int(comm[2]))
+            player.board.add(card, int(comm[2]))
         elif comm[0] == 'x':
             return
         elif comm[0] == 'q':
