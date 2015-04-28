@@ -1,6 +1,7 @@
 from tcg.events import *
 import unittest
-
+from unit import BaseTCGTest
+from tcg.game import *
 class Doge():
     h1 = 0
     h2 = 0
@@ -36,3 +37,20 @@ class EventTest(unittest.TestCase):
         events.unsubscribe(doge2)
         self.assertEquals(len(events.handlers["a"]),2)
 
+class EventIntegrationTest(BaseTCGTest):
+    
+    def test_spellthief(self):
+        p1, p2 = self._game_factory([],[SpellThiefCard])
+        stc = p2.board.cards[0]
+        self.assertEquals(stc.get_att(), 2)
+        p1.board.add(DrawCardsCard, 1)
+        self.assertEquals(stc.get_att(), 3)
+        p2.board.add(DrawCardsCard, 1)
+        self.assertEquals(stc.get_att(), 4)
+        #should not trigger if replaced
+        self.assertEquals(len(p2.discard_pile), 1)
+        p2.board.add(DefensiveCard, 0)
+        self.assertEquals(len(p2.discard_pile), 2)
+        self.assertEquals(len(events.handlers['spellcardplayed']), 0)
+        self.assertEquals(stc.get_att(), 4)
+        
