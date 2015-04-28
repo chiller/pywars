@@ -16,14 +16,14 @@ class Board(FieldUtilsMixin, object):
     def add(self, cardclass, position):
         if issubclass(cardclass, CreatureCard):
             if issubclass(self.cards[position].__class__, CreatureCard):
-                self.player.discard_pile.append(self.cards[position].__class__)
+                self.cards[position].discard()
             self.cards[position] = cardclass(self)
         elif cardclass == EmptyField:
             self.cards[position] = cardclass(self)
         elif issubclass(cardclass, SpellCard):
             events.emit("spellcardplayed")
-            cardclass(self)
-
+            spell = cardclass(self)
+            spell.discard()
     def remove(self, card):
         self.cards.remove(card)
 

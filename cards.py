@@ -10,12 +10,14 @@ class Card(object):
         self.field = field
         self.effects = [Effect(self)]
 
+    def discard(self):
+        self.field.player.discard_pile.append(self.__class__)
     def die(self):
         index = self.field.cards.index(self)
         self.field.cards[index] = EmptyField(self.field)
-        self.field.player.discard_pile.append(self.__class__)
         for card in self.field.cards:
             card.effects.append(FriendlyHasDiedEffect(card))
+        self.discard()
     
     def get_bonus_hp(self):
         return sum(map(lambda x:x.defense_modifier(),self.effects))
