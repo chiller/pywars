@@ -50,7 +50,7 @@ class Deck(object):
         self.cards = self.loadcards()
 
     def loadcards(self):
-        cards = [CreatureCard, DefensiveCard, CardWithEffect,
+        cards = [DefensiveCard, CardWithEffect,
                  DrawCardsCard, CelestialCastle, FieldOfNightmares]
         cards = cards * 3
         random.shuffle(cards)
@@ -68,6 +68,10 @@ class Player(object):
         self.deck = Deck()
         self.hand = []
         self.discard_pile = []
+
+    def start_turn(self):
+        self.ap = 2
+        self.draw()
 
     def draw(self):
         if self.deck.cards:
