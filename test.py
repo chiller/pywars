@@ -1,17 +1,18 @@
 import unittest
+from controller import Game
 from game import *
 
 class TCGTest(unittest.TestCase):
         
     def test_empty_field_attacks_player(self):
-        p1 = Player("one")
-        p2 = Player("two")
+        p1 = Player("one", None)
+        p2 = Player("two", None)
         p1.board.add(CreatureCard, 1)
         p1.attack(p2)
         self.assertEquals(p2.hp, 18)
 
     def test_deck(self):
-        p1 = Player("one")
+        p1 = Player("one", None)
         self.assertTrue(p1.deck)
         cards_cnt = len(p1.deck.cards)
         [p1.draw() for i in range(cards_cnt)]
@@ -21,8 +22,9 @@ class TCGTest(unittest.TestCase):
         self.assertEquals(len(p1.hand),cards_cnt)
 
     def _game_factory(self, field_config1, field_config2):
-        p1 = Player("one")
-        p2 = Player("two")
+        game = Game()
+        p1 = game.player1
+        p2 = game.player2
         for card_class, i in zip(field_config1, range(len(field_config1))):
             p1.board.add(card_class, i)
         for card_class, i in zip(field_config2, range(len(field_config2))):
@@ -86,5 +88,14 @@ class TCGTest(unittest.TestCase):
         p1.board.add(CreatureCard, 0)
         self.assertEqual(p1.board.cards[0].get_building().__class__, CelestialCastle)
         self.assertEquals(p1.board.cards[0].get_hp(), 8)
-        #todo: -"- should appear in game UI
-unittest.main()
+
+    def test_FieldOfNightmares(self):
+        p1, p2 = self._game_factory([], [])
+        p2.hand.extend([CreatureCard for i in range(5)])
+        p1.board.add(FieldOfNightmares, 0)
+        self.assertEqual(p1.hp, 20)
+        self.assertEqual(p2.hp, 15)
+
+
+if __name__ == '__main__':
+    unittest.main()

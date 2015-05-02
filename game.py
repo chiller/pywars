@@ -44,7 +44,7 @@ class Deck(object):
 
     def loadcards(self):
         cards = [CreatureCard, DefensiveCard, CardWithEffect,
-                 DrawCardsCard, CelestialCastle]
+                 DrawCardsCard, CelestialCastle, FieldOfNightmares]
         cards = cards * 3
         random.shuffle(cards)
         return cards
@@ -53,8 +53,9 @@ class Deck(object):
 
 class Player(object):
     hp = 20
-    def __init__(self, name):
+    def __init__(self, name, game):
         self.name = name
+        self.game = game
         self.board = Board(self)
         self.deck = Deck()
         self.hand = []
