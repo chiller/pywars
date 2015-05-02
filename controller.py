@@ -24,7 +24,7 @@ def get_colored_hp(card):
             return color(colors.OKGREEN, hp)
         else:
             return hp
-        
+
 
 def print_buildings(player):
     bs = []
@@ -37,9 +37,16 @@ def print_buildings(player):
 
 
 class Game(object):
-    player1 = Player("one")
-    player2 = Player("two")
-    
+
+    def __init__(self):
+        super(Game, self).__init__()
+        self.player1 = Player("one", self)
+        self.player2 = Player("two", self)
+
+    def opponent(self, player):
+        if player == self.player1:
+            return self.player2
+        return self.player1
 
     def draw_board(self, player):
         return " ".join(get_colored_card(card) for card in player.board.cards)
@@ -84,6 +91,9 @@ class Game(object):
     def overrides(self):
         self.player1.hand.append(DrawCardsCard)
 
-game = Game()
-game.play()
+if __name__ == '__main__':
+    game = Game()
+    game.play()
+
+
 

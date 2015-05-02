@@ -100,6 +100,13 @@ class DrawCardsCard(SpellCard):
         super(DrawCardsCard, self).__init__(*args)
         self.effects = [DrawCardsEffect(self)]
 
+class FieldOfNightmares(SpellCard):
+    strname = "FN"
+    def __init__(self, field):
+        super(FieldOfNightmares, self).__init__(field)
+        opponent = self.field.player.game.opponent(self.field.player)
+        [opponent.get_hit(1) for card in opponent.hand]
+
 class CelestialCastle(BuildingCard):
     strname = "CC"
     bonus_hp = 3
