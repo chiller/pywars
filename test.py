@@ -74,5 +74,17 @@ class TCGTest(unittest.TestCase):
         p1.board.add(CreatureCard, 0)
         self.assertEqual(p1.discard_pile, [CreatureCard, DefensiveCard])
 
-
+    def test_building_card(self):
+        p1, p2 = self._game_factory([], [])
+        self.assertFalse(issubclass(CelestialCastle, CreatureCard))
+        p1.board.add(CelestialCastle, 0)
+        self.assertFalse(p1.board.cards[0].__class__ == CelestialCastle)
+        self.assertTrue(p1.board.buildings)
+        self.assertTrue(p1.board.buildings[0].__class__ == CelestialCastle)
+        p1.board.add(CelestialCastle, 0)
+        self.assertEqual(p1.discard_pile, [CelestialCastle])
+        p1.board.add(CreatureCard, 0)
+        self.assertEqual(p1.board.cards[0].get_building().__class__, CelestialCastle)
+        self.assertEquals(p1.board.cards[0].get_hp(), 8)
+        #todo: -"- should appear in game UI
 unittest.main()
