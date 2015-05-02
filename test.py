@@ -25,6 +25,7 @@ class TCGTest(unittest.TestCase):
         game = Game()
         p1 = game.player1
         p2 = game.player2
+        p1.ap, p2.ap = 200, 200
         for card_class, i in zip(field_config1, range(len(field_config1))):
             p1.board.add(card_class, i)
         for card_class, i in zip(field_config2, range(len(field_config2))):
@@ -96,6 +97,14 @@ class TCGTest(unittest.TestCase):
         self.assertEqual(p1.hp, 20)
         self.assertEqual(p2.hp, 15)
 
+    def test_action_points(self):
+        p1, p2 = self._game_factory([], [])
+        p1.ap, p2.ap = 2, 2
+        self.assertTrue(p1.ap)
+        self.assertEqual(p1.ap, 2)
+        p1.hand.append(CreatureCard)
+        p1.board.add(CreatureCard, 0)
+        self.assertEqual(p1.ap, 1)
 
 if __name__ == '__main__':
     unittest.main()

@@ -5,6 +5,7 @@ class Card(object):
     hp_lost = 0
     att = 2
     strname = "C"
+    cost = 0
 
     def __init__(self, field):
         self.field = field
@@ -39,7 +40,8 @@ class EmptyField(Card):
 
 class CreatureCard(Card):
     
-    
+    cost = 1
+
     def __str__(self):
         return "[%s%d/%d]" % (self.strname, self.get_att(), self.get_hp())
 

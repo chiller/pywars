@@ -55,6 +55,7 @@ class Game(object):
         print print_buildings(self.player1)
         for player in [self.player1, self.player2]:
             print str(player.hp),
+            print str(player.ap),
             print "|", 
             print self.draw_board(player),
             print "|", 
