@@ -43,7 +43,8 @@ class Deck(object):
         self.cards = self.loadcards()
 
     def loadcards(self):
-        cards = [CreatureCard, DefensiveCard, CardWithEffect, DrawCardsCard]
+        cards = [CreatureCard, DefensiveCard, CardWithEffect,
+                 DrawCardsCard, CelestialCastle]
         cards = cards * 3
         random.shuffle(cards)
         return cards

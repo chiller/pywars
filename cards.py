@@ -19,7 +19,10 @@ class Card(object):
         self.field.player.discard_pile.append(self.__class__)
         for card in self.field.cards:
             card.effects.append(FriendlyHasDiedEffect(card))
-    
+
+    def __str__(self):
+        return "[" + self.strname + "]"
+
 class EmptyField(Card):
     hp = 0
     att = 0
@@ -31,8 +34,7 @@ class EmptyField(Card):
     def attack(self, damage):
         pass
 
-    def __str__(self):
-        return "[ ]"
+
 
 
 class CreatureCard(Card):
