@@ -25,6 +25,7 @@ class TCGTest(unittest.TestCase):
         game = Game()
         p1 = game.player1
         p2 = game.player2
+        p1.ap, p2.ap = 200, 200
         for card_class, i in zip(field_config1, range(len(field_config1))):
             p1.board.add(card_class, i)
         for card_class, i in zip(field_config2, range(len(field_config2))):
@@ -61,7 +62,7 @@ class TCGTest(unittest.TestCase):
     def test_spell_card(self):
         p1, p2 = self._game_factory([],[])
         p1.deck.cards.extend([CreatureCard for i in range(5)])
-        p1.board.add(DrawCardsCard, 0)
+        p1.board.add(GnomeSnot, 0)
         self.assertEquals(len(p1.hand), 3)
         self.assertEquals(type(p1.board.cards[0]),EmptyField)
 
@@ -96,6 +97,19 @@ class TCGTest(unittest.TestCase):
         self.assertEqual(p1.hp, 20)
         self.assertEqual(p2.hp, 15)
 
+    def test_action_points(self):
+        p1, p2 = self._game_factory([], [])
+        p1.ap, p2.ap = 2, 2
+        self.assertTrue(p1.ap)
+        self.assertEqual(p1.ap, 2)
+        p1.hand.append(CreatureCard)
+        p1.board.add(CreatureCard, 0)
+        self.assertEqual(p1.ap, 1)
+        p1.board.add(CelestialCastle, 1)
+        self.assertEqual(p1.ap, 0)
+        p1.board.add(CelestialCastle, 2)
+        self.assertEqual(p1.ap, 0)
+        self.assertFalse(p1.board.buildings[2].__class__ == CelestialCastle )
 
 if __name__ == '__main__':
     unittest.main()

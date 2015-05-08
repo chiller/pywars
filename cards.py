@@ -5,6 +5,7 @@ class Card(object):
     hp_lost = 0
     att = 2
     strname = "C"
+    cost = 0
 
     def __init__(self, field):
         self.field = field
@@ -39,7 +40,8 @@ class EmptyField(Card):
 
 class CreatureCard(Card):
     
-    
+    cost = 1
+
     def __str__(self):
         return "[%s%d/%d]" % (self.strname, self.get_att(), self.get_hp())
 
@@ -74,11 +76,13 @@ class CreatureCard(Card):
             return self.field.buildings[card_index]
 
 class SpellCard(Card):
+    cost = 1
     def __str__(self):
         return "[%s]" % (self.strname)
 
 class BuildingCard(Card):
-    pass
+    cost = 1
+
 
 
 class CardWithEffect(CreatureCard):
@@ -94,10 +98,10 @@ class DefensiveCard(CreatureCard):
         super(DefensiveCard, self).__init__(*args)
         self.effects = [SimpleDefensiveEffect(self)]
 
-class DrawCardsCard(SpellCard):
+class GnomeSnot(SpellCard):
     strname = "D3"
     def __init__(self, *args):
-        super(DrawCardsCard, self).__init__(*args)
+        super(GnomeSnot, self).__init__(*args)
         self.effects = [DrawCardsEffect(self)]
 
 class FieldOfNightmares(SpellCard):

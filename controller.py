@@ -55,6 +55,7 @@ class Game(object):
         print print_buildings(self.player1)
         for player in [self.player1, self.player2]:
             print str(player.hp),
+            print str(player.ap),
             print "|", 
             print self.draw_board(player),
             print "|", 
@@ -80,7 +81,7 @@ class Game(object):
         self.overrides()
         try:
             while True:
-                attacking.draw()
+                attacking.start_turn()
                 self.draw()
                 self.command(attacking)
                 attacking.attack(defending)
@@ -89,7 +90,7 @@ class Game(object):
             print "Game over", e
 
     def overrides(self):
-        self.player1.hand.append(DrawCardsCard)
+        pass#self.player1.hand.append(DrawCardsCard)
 
 if __name__ == '__main__':
     game = Game()

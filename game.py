@@ -13,7 +13,7 @@ class Board(FieldUtilsMixin, object):
         self.player = player
         self.buildings = [None] * 4
 
-    def add(self, cardclass, position):
+    def add_without_cost(self, cardclass, position):
         if issubclass(cardclass, CreatureCard):
             if issubclass(self.cards[position].__class__, CreatureCard):
                 self.player.discard_pile.append(self.cards[position].__class__)
@@ -26,6 +26,11 @@ class Board(FieldUtilsMixin, object):
             if issubclass(self.buildings[position].__class__, BuildingCard):
                 self.player.discard_pile.append(self.buildings[position].__class__)
             self.buildings[position] = cardclass(self)
+
+    def add(self, cardclass, position):
+        if self.player.ap >= cardclass.cost:
+            self.player.ap -= cardclass.cost
+            self.add_without_cost(cardclass, position)
 
     def remove(self, card):
         self.cards.remove(card)
@@ -43,8 +48,8 @@ class Deck(object):
         self.cards = self.loadcards()
 
     def loadcards(self):
-        cards = [CreatureCard, DefensiveCard, CardWithEffect,
-                 DrawCardsCard, CelestialCastle, FieldOfNightmares]
+        cards = [DefensiveCard, CardWithEffect,
+                 GnomeSnot, CelestialCastle, FieldOfNightmares]
         cards = cards * 3
         random.shuffle(cards)
         return cards
@@ -53,6 +58,7 @@ class Deck(object):
 
 class Player(object):
     hp = 20
+    ap = 2
     def __init__(self, name, game):
         self.name = name
         self.game = game
@@ -60,6 +66,10 @@ class Player(object):
         self.deck = Deck()
         self.hand = []
         self.discard_pile = []
+
+    def start_turn(self):
+        self.ap = 2
+        self.draw()
 
     def draw(self):
         if self.deck.cards:
