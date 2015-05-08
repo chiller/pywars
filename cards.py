@@ -98,10 +98,10 @@ class DefensiveCard(CreatureCard):
         super(DefensiveCard, self).__init__(*args)
         self.effects = [SimpleDefensiveEffect(self)]
 
-class DrawCardsCard(SpellCard):
+class GnomeSnot(SpellCard):
     strname = "D3"
     def __init__(self, *args):
-        super(DrawCardsCard, self).__init__(*args)
+        super(GnomeSnot, self).__init__(*args)
         self.effects = [DrawCardsEffect(self)]
 
 class FieldOfNightmares(SpellCard):

@@ -62,7 +62,7 @@ class TCGTest(unittest.TestCase):
     def test_spell_card(self):
         p1, p2 = self._game_factory([],[])
         p1.deck.cards.extend([CreatureCard for i in range(5)])
-        p1.board.add(DrawCardsCard, 0)
+        p1.board.add(GnomeSnot, 0)
         self.assertEquals(len(p1.hand), 3)
         self.assertEquals(type(p1.board.cards[0]),EmptyField)
 
