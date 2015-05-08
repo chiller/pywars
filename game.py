@@ -32,8 +32,6 @@ class Board(FieldUtilsMixin, object):
             self.player.ap -= cardclass.cost
             self.add_without_cost(cardclass, position)
 
-
-
     def remove(self, card):
         self.cards.remove(card)
 

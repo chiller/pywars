@@ -105,6 +105,11 @@ class TCGTest(unittest.TestCase):
         p1.hand.append(CreatureCard)
         p1.board.add(CreatureCard, 0)
         self.assertEqual(p1.ap, 1)
+        p1.board.add(CelestialCastle, 1)
+        self.assertEqual(p1.ap, 0)
+        p1.board.add(CelestialCastle, 2)
+        self.assertEqual(p1.ap, 0)
+        self.assertFalse(p1.board.buildings[2].__class__ == CelestialCastle )
 
 if __name__ == '__main__':
     unittest.main()

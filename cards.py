@@ -76,11 +76,13 @@ class CreatureCard(Card):
             return self.field.buildings[card_index]
 
 class SpellCard(Card):
+    cost = 1
     def __str__(self):
         return "[%s]" % (self.strname)
 
 class BuildingCard(Card):
-    pass
+    cost = 1
+
 
 
 class CardWithEffect(CreatureCard):
