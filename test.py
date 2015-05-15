@@ -111,5 +111,17 @@ class TCGTest(unittest.TestCase):
         self.assertEqual(p1.ap, 0)
         self.assertFalse(p1.board.buildings[2].__class__ == CelestialCastle )
 
+    def test_CerebralBloodstorm(self):
+        p1, p2 = self._game_factory([], [])
+        self.assertTrue(CerebralBloodstorm)
+        p2.board.add(CreatureCard,0)
+        p2.board.add(CreatureCard,1)
+        p2.board.add(CreatureCard,2)
+        p2.board.add(CreatureCard,3)
+        p1.board.add(CerebralBloodstorm, 0)
+        for i in range(len(p2.board.cards)):
+            self.assertEqual(p2.board.cards[i].hp_lost, 1)
+
+
 if __name__ == '__main__':
     unittest.main()
