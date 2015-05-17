@@ -67,8 +67,12 @@ class Game(object):
     def command(self, player):
         comm = raw_input(player.name+":").split(" ")
         if comm[0] == 'p':
-            card = player.hand.pop(int(comm[1]))
-            player.board.add(card, int(comm[2]))
+            card = player.hand[int(comm[1])]
+            try:
+                player.board.add(card, int(comm[2]))
+                player.hand.pop(int(comm[1]))
+            except OutOfAP:
+                print "Not enough AP"
         elif comm[0] == 'x':
             return
         elif comm[0] == 'q':

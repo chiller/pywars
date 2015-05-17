@@ -107,7 +107,8 @@ class TCGTest(unittest.TestCase):
         self.assertEqual(p1.ap, 1)
         p1.board.add(CelestialCastle, 1)
         self.assertEqual(p1.ap, 0)
-        p1.board.add(CelestialCastle, 2)
+        with self.assertRaises(OutOfAP):
+            p1.board.add(CelestialCastle, 2)
         self.assertEqual(p1.ap, 0)
         self.assertFalse(p1.board.buildings[2].__class__ == CelestialCastle )
 
