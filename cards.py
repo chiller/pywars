@@ -114,3 +114,12 @@ class FieldOfNightmares(SpellCard):
 class CelestialCastle(BuildingCard):
     strname = "CC"
     bonus_hp = 3
+
+class CerebralBloodstorm(SpellCard):
+    strname = "CB"
+    def __init__(self, field):
+        super(CerebralBloodstorm, self).__init__(field)
+        opponent = self.field.player.game.opponent(self.field.player)
+        for i in range(len(opponent.board.cards)):
+            if isinstance(i, CreatureCard):
+                opponent.board.cards[i].get_hit(1)
