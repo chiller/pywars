@@ -121,4 +121,5 @@ class CerebralBloodstorm(SpellCard):
         super(CerebralBloodstorm, self).__init__(field)
         opponent = self.field.player.game.opponent(self.field.player)
         for i in range(len(opponent.board.cards)):
-            opponent.board.cards[i].get_hit(1)
+            if isinstance(i, CreatureCard):
+                opponent.board.cards[i].get_hit(1)

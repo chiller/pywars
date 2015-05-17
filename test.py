@@ -117,11 +117,11 @@ class TCGTest(unittest.TestCase):
         p2.board.add(CreatureCard,0)
         p2.board.add(CreatureCard,1)
         p2.board.add(CreatureCard,2)
-        p2.board.add(CreatureCard,3)
         p1.board.add(CerebralBloodstorm, 0)
         for i in range(len(p2.board.cards)):
-            self.assertEqual(p2.board.cards[i].hp_lost, 1)
-
+            if isinstance(i, CreatureCard):
+                self.assertEqual(p2.board.cards[i].hp_lost, 1)
+        self.assertEqual(p2.hp, 20)
 
 if __name__ == '__main__':
     unittest.main()
