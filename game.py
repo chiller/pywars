@@ -21,13 +21,14 @@ class Board(FieldUtilsMixin, object):
         elif cardclass == EmptyField:
             self.cards[position] = cardclass(self)
         elif issubclass(cardclass, SpellCard):
-            cardclass(self)
+            cardclass(self, position)
         elif issubclass(cardclass, BuildingCard):
             if issubclass(self.buildings[position].__class__, BuildingCard):
                 self.player.discard_pile.append(self.buildings[position].__class__)
             self.buildings[position] = cardclass(self)
 
     def add(self, cardclass, position):
+        #todo remove target, positio should be used as target
         if self.player.ap >= cardclass.cost:
             self.player.ap -= cardclass.cost
             self.add_without_cost(cardclass, position)
@@ -50,8 +51,13 @@ class Deck(object):
         self.cards = self.loadcards()
 
     def loadcards(self):
-        cards = [DefensiveCard, CardWithEffect,
-                 GnomeSnot, CelestialCastle, FieldOfNightmares, CerebralBloodstorm]
+        cards = [DefensiveCard,
+                 CardWithEffect,
+                 GnomeSnot,
+                 CelestialCastle,
+                 FieldOfNightmares,
+                 WoadTalisman,
+                 CerebralBloodstorm]
         cards = cards * 3
         random.shuffle(cards)
         return cards

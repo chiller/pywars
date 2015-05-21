@@ -77,6 +77,8 @@ class CreatureCard(Card):
 
 class SpellCard(Card):
     cost = 1
+    def __init__(self, field, position=None):
+       super(SpellCard, self).__init__(field)
     def __str__(self):
         return "[%s]" % (self.strname)
 
@@ -106,7 +108,7 @@ class GnomeSnot(SpellCard):
 
 class FieldOfNightmares(SpellCard):
     strname = "FN"
-    def __init__(self, field):
+    def __init__(self, field, position=None):
         super(FieldOfNightmares, self).__init__(field)
         opponent = self.field.player.game.opponent(self.field.player)
         [opponent.get_hit(1) for card in opponent.hand]
@@ -117,9 +119,16 @@ class CelestialCastle(BuildingCard):
 
 class CerebralBloodstorm(SpellCard):
     strname = "CB"
-    def __init__(self, field):
+    def __init__(self, field, position=None):
         super(CerebralBloodstorm, self).__init__(field)
         opponent = self.field.player.game.opponent(self.field.player)
         for i in range(len(opponent.board.cards)):
             if isinstance(i, CreatureCard):
                 opponent.board.cards[i].get_hit(1)
+
+class WoadTalisman(SpellCard):
+    strname = "WT"
+    def __init__(self, field, position):
+        super(WoadTalisman, self).__init__(field)
+        card = self.field.cards[position]
+        card.effects += [WoadAttackEffect(card)]
