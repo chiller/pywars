@@ -124,5 +124,13 @@ class TCGTest(unittest.TestCase):
                 self.assertEqual(p2.board.cards[i].hp_lost, 1)
         self.assertEqual(p2.hp, 20)
 
+    def test_WoadTalisman(self):
+        p1, p2 = self._game_factory([], [])
+        self.assertTrue(WoadTalisman)
+        p1.board.add(CreatureCard,0)
+        p1.board.add(WoadTalisman, 0)
+        self.assertEqual(p1.board.cards[0].get_att(), 4)
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -18,6 +18,11 @@ class SimpleAttackEffect(Effect):
     def attack_modifier(self):
         return len(self.card.field.get_friendly_cards_on_field()) - 1
 
+class WoadAttackEffect(Effect):
+
+    def attack_modifier(self):
+        return 2
+
 class SimpleDefensiveEffect(Effect):
     permanent = 0
     def defense_modifier(self):
