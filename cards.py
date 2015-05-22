@@ -21,6 +21,9 @@ class Card(object):
         for card in self.field.cards:
             card.effects.append(FriendlyHasDiedEffect(card))
 
+    def is_empty(self):
+        return isinstance(self, EmptyField)
+
     def __str__(self):
         return "[" + self.strname + "]"
 
@@ -99,6 +102,14 @@ class DefensiveCard(CreatureCard):
     def __init__(self, *args):
         super(DefensiveCard, self).__init__(*args)
         self.effects = [SimpleDefensiveEffect(self)]
+
+class NiceIceBaby(CreatureCard):
+    strname = "NB"
+    hp = 2
+    att = 1
+    def __init__(self, *args):
+        super(NiceIceBaby, self).__init__(*args)
+        self.effects = [NiceIceBabyEffect(self)]
 
 class GnomeSnot(SpellCard):
     strname = "D3"

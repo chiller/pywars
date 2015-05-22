@@ -23,6 +23,17 @@ class WoadAttackEffect(Effect):
     def attack_modifier(self):
         return 2
 
+class NiceIceBabyEffect(Effect):
+
+    def attack_modifier(self):
+        opponent = self.card.field.player.game.opponent(self.card.field.player)
+        index = self.card.field.cards.index(self.card)
+
+        if opponent.board.cards[index].is_empty():
+            return 3
+        else:
+            return 0
+
 class SimpleDefensiveEffect(Effect):
     permanent = 0
     def defense_modifier(self):

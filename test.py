@@ -131,6 +131,14 @@ class TCGTest(unittest.TestCase):
         p1.board.add(WoadTalisman, 0)
         self.assertEqual(p1.board.cards[0].get_att(), 4)
 
+    def test_NiceIceBaby(self):
+        p1, p2 = self._game_factory([], [])
+        self.assertTrue(NiceIceBaby)
+        p1.board.add(NiceIceBaby,0)
+        self.assertEqual(p1.board.cards[0].get_att(), 4)
+        p2.board.add(CreatureCard,0)
+        self.assertEqual(p1.board.cards[0].get_att(), 1)
+
 
 if __name__ == '__main__':
     unittest.main()

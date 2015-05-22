@@ -56,6 +56,7 @@ class Deck(object):
                  GnomeSnot,
                  CelestialCastle,
                  FieldOfNightmares,
+                 NiceIceBaby,
                  WoadTalisman,
                  CerebralBloodstorm]
         cards = cards * 3
