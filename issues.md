@@ -34,4 +34,6 @@ changing lanes
 
 targeted abilities
 
+Refactor: hp functionality should only be in creaturecard
+
 EPIC: DSL for card descriptions

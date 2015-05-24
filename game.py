@@ -12,8 +12,9 @@ class Board(FieldUtilsMixin, object):
     def __init__(self, player):
         self.cards = [EmptyField(self) for i in range(4)]
         self.player = player
+        self.buildings = [None] * 4
 
-    def add(self, cardclass, position):
+    def add_without_cost(self, cardclass, position):
         if issubclass(cardclass, CreatureCard):
             if issubclass(self.cards[position].__class__, CreatureCard):
                 self.cards[position].discard()
@@ -22,13 +23,26 @@ class Board(FieldUtilsMixin, object):
             self.cards[position] = cardclass(self)
         elif issubclass(cardclass, SpellCard):
             events.emit("spellcardplayed")
-            spell = cardclass(self)
+            spell = cardclass(self, position)
             spell.discard()
+        elif issubclass(cardclass, BuildingCard):
+            if issubclass(self.buildings[position].__class__, BuildingCard):
+                self.player.discard_pile.append(self.buildings[position].__class__)
+            self.buildings[position] = cardclass(self)
+
+    def add(self, cardclass, position):
+        #todo remove target, position should be used as target
+        if self.player.ap >= cardclass.cost:
+            self.player.ap -= cardclass.cost
+            self.add_without_cost(cardclass, position)
+        else:
+            raise OutOfAP
+
     def remove(self, card):
         self.cards.remove(card)
 
-    def attack(self, field):
-        for c1, c2 in zip(self.cards, field.cards):
+    def attack(self, board):
+        for c1, c2 in zip(self.cards, board.cards):
             c1.attack(c2)         
 
     def __str__(self):
@@ -40,7 +54,15 @@ class Deck(object):
         self.cards = self.loadcards()
 
     def loadcards(self):
-        cards = [CreatureCard, DefensiveCard, CardWithEffect, DrawCardsCard, SpellThiefCard]
+        cards = [DefensiveCard,
+                 CardWithEffect,
+                 GnomeSnot,
+                 CelestialCastle,
+                 FieldOfNightmares,
+                 NiceIceBaby,
+                 WoadTalisman,
+                 CerebralBloodstorm,
+                 SpellThiefCard]
         cards = cards * 3
         random.shuffle(cards)
         return cards
@@ -49,12 +71,18 @@ class Deck(object):
 
 class Player(object):
     hp = 20
-    def __init__(self, name):
+    ap = 2
+    def __init__(self, name, game):
         self.name = name
+        self.game = game
         self.board = Board(self)
         self.deck = Deck()
         self.hand = []
         self.discard_pile = []
+
+    def start_turn(self):
+        self.ap = 2
+        self.draw()
 
     def draw(self):
         if self.deck.cards:

@@ -1,6 +1,6 @@
 
 class FieldUtilsMixin():
-    def get_friendly_cards_on_field(self):
+    def get_friendly_cards_on_board(self):
         from cards import EmptyField
         return filter(
             lambda card: type(card)!=EmptyField,
