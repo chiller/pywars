@@ -1,3 +1,5 @@
+
+
 class Effect(object):
     
     def __init__(self, card):
@@ -16,7 +18,7 @@ class FriendlyHasDiedEffect(Effect):
 class SimpleAttackEffect(Effect):
 
     def attack_modifier(self):
-        return len(self.card.field.get_friendly_cards_on_field()) - 1
+        return len(self.card.board.get_friendly_cards_on_board()) - 1
 
 class WoadAttackEffect(Effect):
 
@@ -26,8 +28,8 @@ class WoadAttackEffect(Effect):
 class NiceIceBabyEffect(Effect):
 
     def attack_modifier(self):
-        opponent = self.card.field.player.game.opponent(self.card.field.player)
-        index = self.card.field.cards.index(self.card)
+        opponent = self.card.board.player.game.opponent(self.card.board.player)
+        index = self.card.board.cards.index(self.card)
 
         if opponent.board.cards[index].is_empty():
             return 3
@@ -44,4 +46,4 @@ class SimpleDefensiveEffect(Effect):
 class DrawCardsEffect(Effect):
     def __init__(self,*args):
         super(DrawCardsEffect, self).__init__(*args)
-        [self.card.field.player.draw() for i in range(3)]
+        [self.card.board.player.draw() for _ in range(3)]

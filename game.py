@@ -38,8 +38,8 @@ class Board(FieldUtilsMixin, object):
     def remove(self, card):
         self.cards.remove(card)
 
-    def attack(self, field):
-        for c1, c2 in zip(self.cards, field.cards):
+    def attack(self, board):
+        for c1, c2 in zip(self.cards, board.cards):
             c1.attack(c2)         
 
     def __str__(self):

@@ -7,18 +7,19 @@ class Card(object):
     strname = "C"
     cost = 0
 
-    def __init__(self, field):
-        self.field = field
+    def __init__(self, board):
+        self.board = board
         self.effects = [Effect(self)]
+
     
     def get_att(self):
         return 0
     
     def die(self):
-        index = self.field.cards.index(self)
-        self.field.cards[index] = EmptyField(self.field)
-        self.field.player.discard_pile.append(self.__class__)
-        for card in self.field.cards:
+        index = self.board.cards.index(self)
+        self.board.cards[index] = EmptyField(self.board)
+        self.board.player.discard_pile.append(self.__class__)
+        for card in self.board.cards:
             card.effects.append(FriendlyHasDiedEffect(card))
 
     def is_empty(self):
@@ -32,8 +33,8 @@ class EmptyField(Card):
     att = 0
     strname = ""
     def get_hit(self, damage):
-        if self.field.player:
-            self.field.player.get_hit(damage)
+        if self.board.player:
+            self.board.player.get_hit(damage)
     
     def attack(self, damage):
         pass
@@ -74,14 +75,14 @@ class CreatureCard(Card):
         return from_building + sum_from_effects
     
     def get_building(self):
-        card_index = self.field.cards.index(self)
-        if self.field.cards[card_index]:
-            return self.field.buildings[card_index]
+        card_index = self.board.cards.index(self)
+        if self.board.cards[card_index]:
+            return self.board.buildings[card_index]
 
 class SpellCard(Card):
     cost = 1
-    def __init__(self, field, position=None):
-       super(SpellCard, self).__init__(field)
+    def __init__(self, board, position=None):
+       super(SpellCard, self).__init__(board)
     def __str__(self):
         return "[%s]" % (self.strname)
 
@@ -119,9 +120,9 @@ class GnomeSnot(SpellCard):
 
 class FieldOfNightmares(SpellCard):
     strname = "FN"
-    def __init__(self, field, position=None):
-        super(FieldOfNightmares, self).__init__(field)
-        opponent = self.field.player.game.opponent(self.field.player)
+    def __init__(self, board, position=None):
+        super(FieldOfNightmares, self).__init__(board)
+        opponent = self.board.player.game.opponent(self.board.player)
         [opponent.get_hit(1) for card in opponent.hand]
 
 class CelestialCastle(BuildingCard):
@@ -130,16 +131,16 @@ class CelestialCastle(BuildingCard):
 
 class CerebralBloodstorm(SpellCard):
     strname = "CB"
-    def __init__(self, field, position=None):
-        super(CerebralBloodstorm, self).__init__(field)
-        opponent = self.field.player.game.opponent(self.field.player)
+    def __init__(self, board, position=None):
+        super(CerebralBloodstorm, self).__init__(board)
+        opponent = self.board.player.game.opponent(self.board.player)
         for i in range(len(opponent.board.cards)):
             if isinstance(i, CreatureCard):
                 opponent.board.cards[i].get_hit(1)
 
 class WoadTalisman(SpellCard):
     strname = "WT"
-    def __init__(self, field, position):
-        super(WoadTalisman, self).__init__(field)
-        card = self.field.cards[position]
+    def __init__(self, board, position):
+        super(WoadTalisman, self).__init__(board)
+        card = self.board.cards[position]
         card.effects += [WoadAttackEffect(card)]
