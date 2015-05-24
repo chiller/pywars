@@ -97,7 +97,7 @@ class Player(object):
 
     def get_hit(self, dmg):
         self.hp -= dmg
-        if self.hp == 0:
+        if self.hp <= 0:
             raise GameOver
 
 
