@@ -11,6 +11,11 @@ class Card(object):
         self.board = board
         self.effects = [Effect(self)]
 
+    def discard(self):
+        self.board.player.discard_pile.append(self.__class__)
+        events.unsubscribe(self)
+        for effect in self.effects:
+            events.unsubscribe(effect)
     
     def get_att(self):
         return 0
@@ -18,9 +23,9 @@ class Card(object):
     def die(self):
         index = self.board.cards.index(self)
         self.board.cards[index] = EmptyField(self.board)
-        self.board.player.discard_pile.append(self.__class__)
         for card in self.board.cards:
             card.effects.append(FriendlyHasDiedEffect(card))
+        self.discard()
 
     def is_empty(self):
         return isinstance(self, EmptyField)
@@ -118,6 +123,12 @@ class GnomeSnot(SpellCard):
         super(GnomeSnot, self).__init__(*args)
         self.effects = [DrawCardsEffect(self)]
 
+class SpellThiefCard(CreatureCard):
+    strname = "ST"
+    def __init__(self, *args):
+        super(SpellThiefCard, self).__init__(*args)
+        self.effects = [SpellThiefEffect(self)]
+
 class FieldOfNightmares(SpellCard):
     strname = "FN"
     def __init__(self, board, position=None):
@@ -144,3 +155,4 @@ class WoadTalisman(SpellCard):
         super(WoadTalisman, self).__init__(board)
         card = self.board.cards[position]
         card.effects += [WoadAttackEffect(card)]
+

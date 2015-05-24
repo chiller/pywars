@@ -1,5 +1,7 @@
 TERMINAL: colored terminal
 
+card+effects lifecycle - need to be destroyed 
+
 building cards
 
 spend action to draw a card

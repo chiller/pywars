@@ -1,4 +1,4 @@
-
+from events import events
 
 class Effect(object):
     
@@ -47,3 +47,15 @@ class DrawCardsEffect(Effect):
     def __init__(self,*args):
         super(DrawCardsEffect, self).__init__(*args)
         [self.card.board.player.draw() for _ in range(3)]
+
+class SpellThiefEffect(Effect):
+    permanent = 0
+    def __init__(self, *args):
+        super(SpellThiefEffect, self).__init__(*args)
+        events.subscribe("spellcardplayed", self.handler)
+
+    def handler(self, e):
+        self.permanent += 1
+
+    def attack_modifier(self):
+        return self.permanent

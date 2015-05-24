@@ -1,6 +1,7 @@
 from excepts import *
 from cards import *
 from utils import FieldUtilsMixin
+from events import events
 import random
 
 
@@ -16,19 +17,21 @@ class Board(FieldUtilsMixin, object):
     def add_without_cost(self, cardclass, position):
         if issubclass(cardclass, CreatureCard):
             if issubclass(self.cards[position].__class__, CreatureCard):
-                self.player.discard_pile.append(self.cards[position].__class__)
+                self.cards[position].discard()
             self.cards[position] = cardclass(self)
         elif cardclass == EmptyField:
             self.cards[position] = cardclass(self)
         elif issubclass(cardclass, SpellCard):
-            cardclass(self, position)
+            events.emit("spellcardplayed")
+            spell = cardclass(self, position)
+            spell.discard()
         elif issubclass(cardclass, BuildingCard):
             if issubclass(self.buildings[position].__class__, BuildingCard):
                 self.player.discard_pile.append(self.buildings[position].__class__)
             self.buildings[position] = cardclass(self)
 
     def add(self, cardclass, position):
-        #todo remove target, positio should be used as target
+        #todo remove target, position should be used as target
         if self.player.ap >= cardclass.cost:
             self.player.ap -= cardclass.cost
             self.add_without_cost(cardclass, position)
@@ -58,7 +61,8 @@ class Deck(object):
                  FieldOfNightmares,
                  NiceIceBaby,
                  WoadTalisman,
-                 CerebralBloodstorm]
+                 CerebralBloodstorm,
+                 SpellThiefCard]
         cards = cards * 3
         random.shuffle(cards)
         return cards
