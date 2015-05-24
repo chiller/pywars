@@ -3,7 +3,7 @@ from game import *
 
 def get_colored_card(card):
     if type(card) == EmptyField:
-        return "[ ]"
+        return "[     ]"
     else:
         return "[%s%d/%s]" % (
                 card.strname,
@@ -30,10 +30,10 @@ def print_buildings(player):
     bs = []
     for building in player.board.buildings:
         if building:
-            bs.append( "[" + color(colors.OKBLUE, building.strname) + "]")
+            bs.append( "[--" + color(colors.OKBLUE, building.strname) + "-]")
         else:
-            bs.append("[ ]")
-    return "     " + " ".join(bs)
+            bs.append("[     ]")
+    return "       " + " ".join(bs)
 
 
 class Game(object):
@@ -97,6 +97,7 @@ class Game(object):
         for _ in range(5):
             self.player1.draw()
             self.player2.draw()
+
 
 if __name__ == '__main__':
     game = Game()
