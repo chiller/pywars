@@ -157,3 +157,9 @@ class WoadTalisman(SpellCard):
         card = self.board.cards[position]
         card.effects += [WoadAttackEffect(card)]
 
+class FieldStalker(CreatureCard):
+    strname = "FS"
+    cost = 1
+    def __init__(self, *args):
+        super(FieldStalker, self).__init__(*args)
+        self.effects = [FieldStalkerEffect(self)]

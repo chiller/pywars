@@ -67,3 +67,14 @@ class SpellThiefEffect(Effect):
 
     def attack_modifier(self):
         return self.permanent
+
+class FieldStalkerEffect(Effect):
+    def __init__(self, *args):
+        super(FieldStalkerEffect, self).__init__(*args)
+        events.subscribe("new turn" + self.card.board.player.name, self.on_new_turn)
+
+    def on_new_turn(self, event):
+        opponent = self.card.board.player.game.opponent(self.card.board.player)
+        self.card.board.player.draw()
+        opponent.draw()
+
