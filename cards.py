@@ -68,8 +68,10 @@ class CreatureCard(Card):
             self.die()
 
     def attack(self, card):
-        card.get_hit(self.get_att())
-        self.get_hit(card.get_att())
+        hit1 = self.get_att()
+        hit2 = card.get_att()
+        card.get_hit(hit1)
+        self.get_hit(hit2)
        
     def get_bonus_hp(self):
         sum_from_effects = sum(map(lambda x:x.defense_modifier(),self.effects))
@@ -145,9 +147,9 @@ class CerebralBloodstorm(SpellCard):
     def __init__(self, board, position=None):
         super(CerebralBloodstorm, self).__init__(board)
         opponent = self.board.player.game.opponent(self.board.player)
-        for i in range(len(opponent.board.cards)):
-            if isinstance(i, CreatureCard):
-                opponent.board.cards[i].get_hit(1)
+        for card in opponent.board.cards:
+            if isinstance(card, CreatureCard):
+                card.get_hit(1)
 
 class WoadTalisman(SpellCard):
     strname = "WT"
@@ -157,3 +159,9 @@ class WoadTalisman(SpellCard):
         card = self.board.cards[position]
         card.effects += [WoadAttackEffect(card)]
 
+class FieldStalker(CreatureCard):
+    strname = "FS"
+    cost = 1
+    def __init__(self, *args):
+        super(FieldStalker, self).__init__(*args)
+        self.effects = [FieldStalkerEffect(self)]

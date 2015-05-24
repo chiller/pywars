@@ -122,9 +122,9 @@ class TCGTest(BaseTCGTest):
         p2.board.add(CreatureCard,1)
         p2.board.add(CreatureCard,2)
         p1.board.add(CerebralBloodstorm, 0)
-        for i in range(len(p2.board.cards)):
-            if isinstance(i, CreatureCard):
-                self.assertEqual(p2.board.cards[i].hp_lost, 1)
+        for card in p2.board.cards:
+            if isinstance(card, CreatureCard):
+                self.assertEqual(card.hp_lost, 1)
         self.assertEqual(p2.hp, 20)
 
     def test_WoadTalisman(self):
@@ -133,9 +133,8 @@ class TCGTest(BaseTCGTest):
         p1.board.add(CreatureCard,0)
         p1.board.add(WoadTalisman, 0)
         self.assertEqual(p1.board.cards[0].get_att(), 4)
-        events.emit("new turn")
+        p1.start_turn()
         self.assertEqual(p1.board.cards[0].get_att(), 2)
-        self.assertEqual(len(events.handlers["new turn"]), 0)
 
     def test_NiceIceBaby(self):
         p1, p2 = self._game_factory([], [])
@@ -144,6 +143,17 @@ class TCGTest(BaseTCGTest):
         self.assertEqual(p1.board.cards[0].get_att(), 4)
         p2.board.add(CreatureCard,0)
         self.assertEqual(p1.board.cards[0].get_att(), 1)
+
+    def test_FieldStalker(self):
+        p1, p2 = self._game_factory([], [])
+        self.assertTrue(FieldStalker)
+        p1.board.add(FieldStalker, 0)
+        p1.start_turn()
+        self.assertEqual(len(p1.hand), 2)
+        self.assertEqual(len(p2.hand), 1)
+        p2.start_turn()
+        self.assertEqual(len(p1.hand), 2)
+        self.assertEqual(len(p2.hand), 2)
 
 
 if __name__ == '__main__':

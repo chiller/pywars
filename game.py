@@ -62,7 +62,8 @@ class Deck(object):
                  NiceIceBaby,
                  WoadTalisman,
                  CerebralBloodstorm,
-                 SpellThiefCard]
+                 SpellThiefCard,
+                 FieldStalker]
         cards = cards * 3
         random.shuffle(cards)
         return cards
@@ -81,7 +82,7 @@ class Player(object):
         self.discard_pile = []
 
     def start_turn(self):
-        events.emit("new turn")
+        events.emit("new turn" + self.name)
         self.ap = 2
         self.draw()
 
@@ -96,7 +97,7 @@ class Player(object):
 
     def get_hit(self, dmg):
         self.hp -= dmg
-        if self.hp == 0:
+        if self.hp <= 0:
             raise GameOver
 
 
