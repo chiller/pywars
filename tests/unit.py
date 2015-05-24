@@ -133,6 +133,9 @@ class TCGTest(BaseTCGTest):
         p1.board.add(CreatureCard,0)
         p1.board.add(WoadTalisman, 0)
         self.assertEqual(p1.board.cards[0].get_att(), 4)
+        events.emit("new turn")
+        self.assertEqual(p1.board.cards[0].get_att(), 2)
+        self.assertEqual(len(events.handlers["new turn"]), 0)
 
     def test_NiceIceBaby(self):
         p1, p2 = self._game_factory([], [])

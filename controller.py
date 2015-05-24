@@ -94,7 +94,9 @@ class Game(object):
             print "Game over", e
 
     def overrides(self):
-        pass#self.player1.hand.append(DrawCardsCard)
+        for _ in range(5):
+            self.player1.draw()
+            self.player2.draw()
 
 if __name__ == '__main__':
     game = Game()

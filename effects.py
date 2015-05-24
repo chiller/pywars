@@ -21,6 +21,14 @@ class SimpleAttackEffect(Effect):
         return len(self.card.board.get_friendly_cards_on_board()) - 1
 
 class WoadAttackEffect(Effect):
+    def __init__(self, *args):
+        super(WoadAttackEffect, self).__init__(*args)
+        events.subscribe("new turn", self.on_new_turn)
+
+    def on_new_turn(self, event):
+        #remove myself from my cards effects
+        self.card.effects.remove(self)
+        events.unsubscribe(self)
 
     def attack_modifier(self):
         return 2

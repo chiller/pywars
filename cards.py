@@ -151,6 +151,7 @@ class CerebralBloodstorm(SpellCard):
 
 class WoadTalisman(SpellCard):
     strname = "WT"
+    cost = 0
     def __init__(self, board, position):
         super(WoadTalisman, self).__init__(board)
         card = self.board.cards[position]

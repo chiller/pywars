@@ -81,6 +81,7 @@ class Player(object):
         self.discard_pile = []
 
     def start_turn(self):
+        events.emit("new turn")
         self.ap = 2
         self.draw()
 
