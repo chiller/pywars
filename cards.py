@@ -147,9 +147,9 @@ class CerebralBloodstorm(SpellCard):
     def __init__(self, board, position=None):
         super(CerebralBloodstorm, self).__init__(board)
         opponent = self.board.player.game.opponent(self.board.player)
-        for i in range(len(opponent.board.cards)):
-            if isinstance(i, CreatureCard):
-                opponent.board.cards[i].get_hit(1)
+        for card in opponent.board.cards:
+            if isinstance(card, CreatureCard):
+                card.get_hit(1)
 
 class WoadTalisman(SpellCard):
     strname = "WT"

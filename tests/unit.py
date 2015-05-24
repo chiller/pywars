@@ -122,9 +122,9 @@ class TCGTest(BaseTCGTest):
         p2.board.add(CreatureCard,1)
         p2.board.add(CreatureCard,2)
         p1.board.add(CerebralBloodstorm, 0)
-        for i in range(len(p2.board.cards)):
-            if isinstance(i, CreatureCard):
-                self.assertEqual(p2.board.cards[i].hp_lost, 1)
+        for card in p2.board.cards:
+            if isinstance(card, CreatureCard):
+                self.assertEqual(card.hp_lost, 1)
         self.assertEqual(p2.hp, 20)
 
     def test_WoadTalisman(self):
