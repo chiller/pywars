@@ -68,8 +68,10 @@ class CreatureCard(Card):
             self.die()
 
     def attack(self, card):
-        card.get_hit(self.get_att())
-        self.get_hit(card.get_att())
+        hit1 = self.get_att()
+        hit2 = card.get_att()
+        card.get_hit(hit1)
+        self.get_hit(hit2)
        
     def get_bonus_hp(self):
         sum_from_effects = sum(map(lambda x:x.defense_modifier(),self.effects))
