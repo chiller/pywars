@@ -33,6 +33,7 @@ class Card(object):
     def __str__(self):
         return "[" + self.strname + "]"
 
+
 class EmptyField(Card):
     hp = 0
     att = 0
@@ -142,6 +143,7 @@ class CelestialCastle(BuildingCard):
     strname = "CC"
     bonus_hp = 3
 
+
 class CerebralBloodstorm(SpellCard):
     strname = "CB"
     def __init__(self, board, position=None):
@@ -165,3 +167,10 @@ class FieldStalker(CreatureCard):
     def __init__(self, *args):
         super(FieldStalker, self).__init__(*args)
         self.effects = [FieldStalkerEffect(self)]
+
+
+class Phyllis(CreatureCard):
+    strname = "Ph"
+    cost = 2
+    hp = 15
+    att = 5

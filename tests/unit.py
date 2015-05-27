@@ -155,6 +155,13 @@ class TCGTest(BaseTCGTest):
         self.assertEqual(len(p1.hand), 2)
         self.assertEqual(len(p2.hand), 2)
 
+    def test_Phyllis(self):
+        p1, p2 = self._game_factory([], [])
+        self.assertTrue(Phyllis)
+        p1.board.add(Phyllis, 0)
+        self.assertEqual(p1.board.cards[0].get_att(), 5)
+        self.assertEqual(p1.board.cards[0].get_hp(), 15)
+
 
 if __name__ == '__main__':
     unittest.main()
