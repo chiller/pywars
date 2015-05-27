@@ -63,6 +63,7 @@ class Deck(object):
                  WoadTalisman,
                  CerebralBloodstorm,
                  SpellThiefCard,
+                 Phyllis,
                  FieldStalker]
         cards = cards * 3
         random.shuffle(cards)
